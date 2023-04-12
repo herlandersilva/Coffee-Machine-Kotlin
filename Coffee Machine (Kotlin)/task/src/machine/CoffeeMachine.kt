@@ -16,16 +16,14 @@ class CoffeeMachine {
     fun `Coffee is ready!`() = println("Coffee is ready!")
     fun `How many ingredients to make x cups of coffee`() = this.howManyIngredientsNeedToMakeCoffeeXCups()
     fun `How many supplier the machine has`() = this.howManySupplierTheMachineHas()
-    fun `Buy, fill and take`() = this.buyFillAndTake()
+    fun `Buy, fill, take, remaining and exit`() = this.menu()
 
 
-    override fun toString(): String {
-        return "The coffee machine has:" + "\n" +
-                this.machineSupplier()
-    }
+    override fun toString(): String = this.machineSupplier()
 
     private fun machineSupplier(): String {
-        return this.waterSupplier.toString() + "\n" +
+        return "The coffee machine has:" + "\n" +
+                this.waterSupplier.toString() + "\n" +
                 this.milkSupplier.toString() + "\n" +
                 this.coffeeBeansSupplier.toString() + "\n" +
                 "%d disposable cups".format(cups) + "\n" +
@@ -82,20 +80,20 @@ class CoffeeMachine {
         }.also(::println)
     }
 
-    private fun buyFillAndTake() {
-        this.toString().let(::println)
-        println()
-        this.actionMenu()
-        println()
-        this.toString().let(::println)
+    private fun menu() {
+        while (this.actionMenu()) {}
     }
 
-    private fun actionMenu() {
-        when (Util.ask("Write action (buy, fill, take):")) {
-            "buy" -> buyCoffee()
-            "fill" -> fillSupplyMachine()
-            "take" -> takeTheMoney()
+    private fun actionMenu(): Boolean {
+        when (Util.ask("Write action (buy, fill, take, remaining, exit):")) {
+            "buy" -> println().also { buyCoffee() }
+            "fill" -> println().also { fillSupplyMachine() }
+            "take" -> println().also { takeTheMoney() }
+            "remaining" -> println().also { machineSupplier().let(::println) }
+            "exit" -> return false
         }
+        println()
+        return true
     }
 
     private fun buyCoffee() {
