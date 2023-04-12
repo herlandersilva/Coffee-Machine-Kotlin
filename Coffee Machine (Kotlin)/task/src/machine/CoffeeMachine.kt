@@ -93,7 +93,7 @@ class CoffeeMachine {
     private fun actionMenu() {
         when (Util.ask("Write action (buy, fill, take):")) {
             "buy" -> buyCoffee()
-            //"fill" -> fillSupplyMachine()
+            "fill" -> fillSupplyMachine()
             //"take" -> takeTheMoney()
         }
     }
@@ -132,6 +132,13 @@ class CoffeeMachine {
         this.coffeeBeansSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.coffeeVolume?.quantity ?: 0U
         this.cups--
         this.money.amount += typeOfDrinkCoffee[cupNumber[optionCoffee]]?.price ?: 0
+    }
+
+    private fun fillSupplyMachine() {
+        this.waterSupplier.quantity += Util.ask("Write how many %s of %s you want to add:".format(Unit.ML.desc, Ingredient.WATER.desc)).toUInt()
+        this.milkSupplier.quantity += Util.ask("Write how many %s of %s you want to add:".format(Unit.ML.desc, Ingredient.MILK.desc)).toUInt()
+            this.coffeeBeansSupplier.quantity += Util.ask("Write how many %s of %s you want to add:".format(Unit.GM.desc, Ingredient.COFFEE_BEANS.desc)).toUInt()
+        this.cups += Util.ask("Write how many disposable cups you want to add:").toInt()
     }
 }
 
