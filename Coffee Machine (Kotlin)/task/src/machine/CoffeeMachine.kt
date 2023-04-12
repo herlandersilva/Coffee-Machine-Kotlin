@@ -17,7 +17,7 @@ class CoffeeMachine {
     fun `How many ingredients to make x cups of coffee`() = this.howManyIngredientsNeedToMakeCoffeeXCups()
     fun `How many supplier the machine has`() = this.howManySupplierTheMachineHas()
     fun `Buy, fill, take, remaining and exit`() = this.menu()
-
+    fun `I have enough resources, making you a coffee!()`() = "I have enough resources, making you a coffee!".let(::println)
 
     override fun toString(): String = this.machineSupplier()
 
@@ -125,11 +125,40 @@ class CoffeeMachine {
         )
 
         val optionCoffee = Util.ask("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:").toInt()
-        this.waterSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.waterVolume?.quantity ?: 0U
-        this.milkSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.milkVolume?.quantity ?: 0U
-        this.coffeeBeansSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.coffeeVolume?.quantity ?: 0U
-        this.cups--
-        this.money.amount += typeOfDrinkCoffee[cupNumber[optionCoffee]]?.price ?: 0
+
+        val cupOfCoffee = TypeOfCoffee.valueOf(optionCoffee - 1).name.lowercase()
+        val water = typeOfDrinkCoffee[cupOfCoffee]?.waterVolume
+        waterSupplier.quantity
+            .takeIf { it.toUInt() > (water?.quantity?.toUInt() ?: 0U) }?.apply {
+                val milk = typeOfDrinkCoffee[cupOfCoffee]?.milkVolume
+                milkSupplier.quantity
+                    .takeIf { it > (milk?.quantity?.toUInt() ?: 0U) }?.apply {
+                        val coffeeBeans = typeOfDrinkCoffee[cupOfCoffee]?.milkVolume
+                        coffeeBeansSupplier.quantity
+                            .takeIf { it > (coffeeBeans?.quantity?.toUInt() ?: 0U) }?.apply {
+                                cups.takeIf { cups > 0 }.apply {
+                                    cups--
+                                } ?: run {
+                                    "Sorry, not enough %s!".format("cups").let(::println)
+                                    return
+                                }
+                                coffeeBeansSupplier.quantity -= coffeeBeans?.quantity?.toUInt()?:0U
+                            } ?: run {
+                            "Sorry, not enough %s!".format(coffeeBeans?.ingredient?.desc).let(::println)
+                            return
+                        }
+                        milkSupplier.quantity -=milk?.quantity?.toUInt()?:0U
+                    } ?: run {
+                    "Sorry, not enough %s!".format(milk?.ingredient?.desc).let(::println)
+                    return
+                }
+                waterSupplier.quantity -=water?.quantity?.toUInt()?:0U
+                `I have enough resources, making you a coffee!()`()
+        } ?: run {
+            "Sorry, not enough %s!".format(water?.ingredient?.desc).let(::println)
+            return
+        }
+        typeOfDrinkCoffee[cupOfCoffee]?.let { money.amount += it.price }
     }
 
     private fun fillSupplyMachine() {

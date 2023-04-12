@@ -10,3 +10,13 @@ enum class Unit(val desc: String, val unit: String) {
     ML("ml", "ml"),
     GM("grams", "g")
 }
+
+enum class TypeOfCoffee {
+    ESPRESSO, LATTE, CAPPUCCINO;
+
+    companion object {
+        fun valueOf(optionCoffee: Int): TypeOfCoffee {
+            return TypeOfCoffee.values()[optionCoffee]
+        }
+    }
+}
