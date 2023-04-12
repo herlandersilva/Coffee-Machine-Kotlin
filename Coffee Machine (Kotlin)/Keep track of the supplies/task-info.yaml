@@ -679,7 +679,7 @@ feedback:
   message: |-
     Error in test #1
 
-    There are 3 classes with main method: machine.Alya_K_SolutionKt, machine.MainKt, machine.Nf_SolutionKt.
+    There are 3 classes with main method: alya.Alya_K_SolutionKt, machine.MainKt, mf.Nf_SolutionKt.
     Leave only one of them to be executed.
-  time: "Wed, 12 Apr 2023 22:02:03 UTC"
+  time: "Wed, 12 Apr 2023 23:20:40 UTC"
 record: -1

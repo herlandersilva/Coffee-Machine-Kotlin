@@ -1,6 +1,6 @@
 package alya
 
-fun main() {
+fun mainAlyaK() {
     val coffeeMachine = DataCoffeeMachine()
     coffeeMachine.printing()
     println("Write action (buy, fill, take): ")
