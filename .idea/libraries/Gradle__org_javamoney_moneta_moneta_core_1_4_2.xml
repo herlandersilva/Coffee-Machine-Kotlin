@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: org.javamoney.moneta:moneta-core:1.4.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.javamoney.moneta/moneta-core/1.4.2/47c10e72d71cb311637f31dc940cd453bdf5bef2/moneta-core-1.4.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.javamoney.moneta/moneta-core/1.4.2/22f1bcc226da7156d5481c4acc84af01a8f4c4e/moneta-core-1.4.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
