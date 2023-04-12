@@ -1,2 +1,62 @@
 [1;31m
 Start test 1[0m
+1Write action (buy, fill, take, remaining, exit):
+> remaining
+
+The coffee machine has:
+400 ml of water
+540 ml of milk
+120 g of coffee beans
+9 disposable cups
+$550 of money
+
+1Write action (buy, fill, take, remaining, exit):
+> buy
+
+BWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+> 2
+.I have enough resources, making you a coffee!
+
+1Write action (buy, fill, take, remaining, exit):
+> buy
+
+BWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+> 2
+Sorry, not enough water!
+
+1Write action (buy, fill, take, remaining, exit):
+> fill
+
+,Write how many ml of water you want to add:
+> 1000
++Write how many ml of milk you want to add:
+> 0
+6Write how many grams of coffee beans you want to add:
+> 0
+0Write how many disposable cups you want to add:
+> 0
+
+1Write action (buy, fill, take, remaining, exit):
+> buy
+
+BWhat do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+> 2
+Sorry, not enough milk!
+
+1Write action (buy, fill, take, remaining, exit):
+> take
+
+I gave you $557
+
+1Write action (buy, fill, take, remaining, exit):
+> remaining
+
+The coffee machine has:
+1050 ml of water
+465 ml of milk
+45 g of coffee beans
+8 disposable cups
+$0 of money
+
+1Write action (buy, fill, take, remaining, exit):
+> exit

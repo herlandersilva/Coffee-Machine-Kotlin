@@ -133,7 +133,7 @@ class CoffeeMachine {
                 val milk = typeOfDrinkCoffee[cupOfCoffee]?.milkVolume
                 milkSupplier.quantity
                     .takeIf { it > (milk?.quantity?.toUInt() ?: 0U) }?.apply {
-                        val coffeeBeans = typeOfDrinkCoffee[cupOfCoffee]?.milkVolume
+                        val coffeeBeans = typeOfDrinkCoffee[cupOfCoffee]?.coffeeVolume
                         coffeeBeansSupplier.quantity
                             .takeIf { it > (coffeeBeans?.quantity?.toUInt() ?: 0U) }?.apply {
                                 cups.takeIf { cups > 0 }.apply {

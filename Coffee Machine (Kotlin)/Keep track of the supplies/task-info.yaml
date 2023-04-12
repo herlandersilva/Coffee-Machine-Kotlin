@@ -673,13 +673,81 @@ files:
         return readln().toInt()
     }
   learner_created: true
+- name: test/hs-test-10.0.3.zip
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5663#comment
 status: Failed
 feedback:
   message: |-
-    Error in test #1
+    Wrong answer in test #1
 
-    There are 3 classes with main method: alya.Alya_K_SolutionKt, machine.MainKt, mf.Nf_SolutionKt.
-    Leave only one of them to be executed.
-  time: "Wed, 12 Apr 2023 23:20:40 UTC"
+    This test is exactly like in the example - try to run it by yourself
+
+    Please find below the output of your program during this failed test.
+    Note that the &#39;&gt;&#39; character indicates the beginning of the input line.
+
+    ---
+
+    Write action (buy, fill, take, remaining, exit):
+    &gt; remaining
+
+    The coffee machine has:
+    400 ml of water
+    540 ml of milk
+    120 g of coffee beans
+    9 disposable cups
+    $550 of money
+
+    Write action (buy, fill, take, remaining, exit):
+    &gt; buy
+
+    What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+    &gt; 2
+    I have enough resources, making you a coffee!
+
+    Write action (buy, fill, take, remaining, exit):
+    &gt; buy
+
+    What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+    &gt; 2
+    Sorry, not enough water!
+
+    Write action (buy, fill, take, remaining, exit):
+    &gt; fill
+
+    Write how many ml of water you want to add:
+    &gt; 1000
+    Write how many ml of milk you want to add:
+    &gt; 0
+    Write how many grams of coffee beans you want to add:
+    &gt; 0
+    Write how many disposable cups you want to add:
+    &gt; 0
+
+    Write action (buy, fill, take, remaining, exit):
+    &gt; buy
+
+    What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+    &gt; 2
+    Sorry, not enough milk!
+
+    Write action (buy, fill, take, remaining, exit):
+    &gt; take
+
+    I gave you $557
+
+    Write action (buy, fill, take, remaining, exit):
+    &gt; remaining
+
+    The coffee machine has:
+    1050 ml of water
+    465 ml of milk
+    45 g of coffee beans
+    8 disposable cups
+    $0 of money
+
+    Write action (buy, fill, take, remaining, exit):
+    &gt; exit
+  time: "Wed, 12 Apr 2023 23:31:23 UTC"
 record: -1
