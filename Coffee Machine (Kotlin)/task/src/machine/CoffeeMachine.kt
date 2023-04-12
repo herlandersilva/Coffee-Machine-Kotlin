@@ -1,16 +1,11 @@
 package machine
 
-import nl.hiddewieringa.money.ofCurrency
-import java.util.*
-import javax.money.MonetaryAmount
-import javax.money.MonetaryContext
-
 class CoffeeMachine {
-    private var cups: Int = 0
-    private var money: MonetaryAmount = (0).ofCurrency()<MonetaryContext>("EUR")
-    private val waterSupplier: Volume = Volume(Ingredient.WATER, 0U, Unit.ML)
-    private val milkSupplier: Volume = Volume(Ingredient.MILK, 0U, Unit.ML)
-    private val coffeeBeansSupplier: Volume = Volume(Ingredient.COFFEE_BEANS, 0U, Unit.GM)
+    private var cups: Int = 9
+    private var money = Monetary(550)
+    private val waterSupplier: Volume = Volume(Ingredient.WATER, 400U, Unit.ML)
+    private val milkSupplier: Volume = Volume(Ingredient.MILK, 540U, Unit.ML)
+    private val coffeeBeansSupplier: Volume = Volume(Ingredient.COFFEE_BEANS, 120U, Unit.GM)
 
     fun `Starting to make a coffee`() = println("Starting to make a coffee")
     fun `Grinding coffee beans`() = println("Grinding coffee beans")
@@ -25,7 +20,16 @@ class CoffeeMachine {
 
 
     override fun toString(): String {
-        return "For %d cups of coffee you will need:".format(cups)
+        return "The coffee machine has:" + "\n" +
+                this.machineSupplier()
+    }
+
+    private fun machineSupplier(): String {
+        return this.waterSupplier.toString() + "\n" +
+                this.milkSupplier.toString() + "\n" +
+                this.coffeeBeansSupplier.toString() + "\n" +
+                "%d disposable cups".format(cups) + "\n" +
+                "%s%d of money".format(this.money.symbol, this.money.amount)
     }
 
     private fun howManyIngredientsNeedToMakeCoffeeXCups() {
@@ -79,7 +83,55 @@ class CoffeeMachine {
     }
 
     private fun buyFillAndTake() {
+        this.toString().let(::println)
+        println()
+        this.actionMenu()
+        println()
+        this.toString().let(::println)
+    }
 
+    private fun actionMenu() {
+        when (Util.ask("Write action (buy, fill, take):")) {
+            "buy" -> buyCoffee()
+            //"fill" -> fillSupplyMachine()
+            //"take" -> takeTheMoney()
+        }
+    }
+
+    private fun buyCoffee() {
+        val typeOfDrinkCoffee: MutableMap<String, CustomCoffeeCup> = mutableMapOf(
+            "espresso" to CustomCoffeeCup(
+                Volume(Ingredient.WATER, 250U, Unit.ML),
+                Volume(Ingredient.MILK, 0U, Unit.ML),
+                Volume(Ingredient.COFFEE_BEANS, 16U, Unit.GM),
+                4
+            ),
+            "latte" to CustomCoffeeCup(
+                Volume(Ingredient.WATER, 350U, Unit.ML),
+                Volume(Ingredient.MILK, 75U, Unit.ML),
+                Volume(Ingredient.COFFEE_BEANS, 20U, Unit.GM),
+                7
+            ),
+            "cappuccino" to CustomCoffeeCup(
+                Volume(Ingredient.WATER, 200U, Unit.ML),
+                Volume(Ingredient.MILK, 100U, Unit.ML),
+                Volume(Ingredient.COFFEE_BEANS, 12U, Unit.GM),
+                6
+            )
+        ).toMutableMap()
+
+        val cupNumber = mapOf(
+            1 to "espresso",
+            2 to "latte",
+            3 to "cappuccino"
+        )
+
+        val optionCoffee = Util.ask("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:").toInt()
+        this.waterSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.waterVolume?.quantity ?: 0U
+        this.milkSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.milkVolume?.quantity ?: 0U
+        this.coffeeBeansSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.coffeeVolume?.quantity ?: 0U
+        this.cups--
+        this.money.amount += typeOfDrinkCoffee[cupNumber[optionCoffee]]?.price ?: 0
     }
 }
 
@@ -90,10 +142,12 @@ abstract class CoffeeCup {
 }
 
 class CustomCoffeeCup(
-    val _waterVolume: Volume,
-    val _milkVolume: Volume,
-    val _coffeeVolume: Volume
+    _waterVolume: Volume,
+    _milkVolume: Volume,
+    _coffeeVolume: Volume,
+    _price: Int = 0
 ) : CoffeeCup() {
+    val price = _price
     override val waterVolume = _waterVolume
     override val milkVolume = _milkVolume
     override val coffeeVolume = _coffeeVolume

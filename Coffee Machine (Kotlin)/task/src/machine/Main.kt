@@ -1,7 +1,7 @@
 package machine
 
 fun main() {
-    Util.enableToSend()
+    Util.disableToSend()
     val coffeeMachine = CoffeeMachine()
-    coffeeMachine.`How many supplier the machine has`()
+    coffeeMachine.`Buy, fill and take`()
 }

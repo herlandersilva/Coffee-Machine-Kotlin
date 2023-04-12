@@ -6,7 +6,7 @@ enum class Ingredient(val desc: String) {
     COFFEE_BEANS("coffee beans")
 }
 
-enum class Unit(val desc: String) {
-    ML("ml"),
-    GM("g")
+enum class Unit(val desc: String, val unit: String) {
+    ML("ml", "ml"),
+    GM("grams", "g")
 }
