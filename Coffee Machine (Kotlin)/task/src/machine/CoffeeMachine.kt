@@ -94,7 +94,7 @@ class CoffeeMachine {
         when (Util.ask("Write action (buy, fill, take):")) {
             "buy" -> buyCoffee()
             "fill" -> fillSupplyMachine()
-            //"take" -> takeTheMoney()
+            "take" -> takeTheMoney()
         }
     }
 
@@ -139,6 +139,11 @@ class CoffeeMachine {
         this.milkSupplier.quantity += Util.ask("Write how many %s of %s you want to add:".format(Unit.ML.desc, Ingredient.MILK.desc)).toUInt()
             this.coffeeBeansSupplier.quantity += Util.ask("Write how many %s of %s you want to add:".format(Unit.GM.desc, Ingredient.COFFEE_BEANS.desc)).toUInt()
         this.cups += Util.ask("Write how many disposable cups you want to add:").toInt()
+    }
+
+    private fun takeTheMoney() {
+        "I gave you %s%d".format(this.money.symbol, this.money.amount)
+        this.money.amount = 0
     }
 }
 
