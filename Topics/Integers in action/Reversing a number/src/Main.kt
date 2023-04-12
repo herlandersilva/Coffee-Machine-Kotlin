@@ -1,0 +1,1 @@
+fun main() = readln().map { Regex("\\d+").find(it.toString())?.value ?: "" }.reversed().joinToString("").let(::println)
