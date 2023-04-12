@@ -142,7 +142,7 @@ class CoffeeMachine {
     }
 
     private fun takeTheMoney() {
-        "I gave you %s%d".format(this.money.symbol, this.money.amount)
+        "I gave you %s%d".format(this.money.symbol, this.money.amount).let(::println)
         this.money.amount = 0
     }
 }
