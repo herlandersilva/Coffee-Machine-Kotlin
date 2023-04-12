@@ -1,4 +1,4 @@
-package machine
+package mf
 
 class Machine() {
     private constructor(water: Int, milk: Int, beans: Int, cups: Int, money: Int) : this() {

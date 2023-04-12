@@ -483,7 +483,111 @@ files:
         fun enableToSend() { this.sendToCheck = true }
     }
   learner_created: true
-- name: src/machine/nf Solution.kt
+- name: src/machine/Volume.kt
+  visible: true
+  text: |-
+    package machine
+
+    data class Volume(val ingredient: Ingredient, var quantity: UInt, val unit: machine.Unit) {
+        override fun toString(): String {
+            return "%d %s of %s".format(quantity.toInt(), unit.unit, ingredient.desc)
+        }
+    }
+  learner_created: true
+- name: src/machine/Unit.kt
+  visible: true
+  text: |-
+    package machine
+
+    enum class Ingredient(val desc: String) {
+        WATER("water"),
+        MILK("milk"),
+        COFFEE_BEANS("coffee beans")
+    }
+
+    enum class Unit(val desc: String, val unit: String) {
+        ML("ml", "ml"),
+        GM("grams", "g")
+    }
+  learner_created: true
+- name: src/machine/Monetary.kt
+  visible: true
+  text: |+
+    package machine
+    class Monetary (var amount: Int = 0) {
+        val symbol = "$"
+    }
+
+  learner_created: true
+- name: src/alya/Alya K Solution.kt
+  visible: true
+  text: |-
+    package machine
+
+    fun main() {
+        val coffeeMachine = DataCoffeeMachine()
+        coffeeMachine.printing()
+        println("Write action (buy, fill, take): ")
+        when (readln()) {
+            "buy" -> { println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ")
+                when(readln().toInt()) {
+                    1 -> coffeeMachine.buy(Coffee.espresso)
+                    2 -> coffeeMachine.buy(Coffee.latte)
+                    3 -> coffeeMachine.buy(Coffee.cappuccino)
+                }
+            }
+            "fill" -> coffeeMachine.fill()
+            "take" -> coffeeMachine.take()
+        }
+        coffeeMachine.printing()
+    }
+
+    data class Coffee(val water: Int, val milk: Int, val beans: Int, val price: Int) {
+        companion object {
+            val espresso = Coffee(water = 250, milk = 0, beans = 16, price = 4)
+            val latte = Coffee(water = 350, milk = 75, beans = 20, price = 7)
+            val cappuccino = Coffee(water = 200, milk = 100, beans = 12, price = 6)
+        }
+    }
+
+    data class DataCoffeeMachine(var water: Int = 400, var milk: Int = 540,
+                                 var beans: Int = 120, var money: Int = 550,
+                                 var cups: Int = 9) {
+        fun printing() {
+            println("The coffee machine has:\n" +
+                    "$water ml of water\n" +
+                    "$milk ml of milk\n" +
+                    "$beans g of coffee beans\n" +
+                    "$cups disposable cups\n" +
+                    "$$money of money\n")
+        }
+
+        fun buy(a: Coffee, cup: Int = 1) {
+            water -= a.water
+            milk -= a.milk
+            beans -= a.beans
+            money += a.price
+            cups -= cup
+        }
+
+        fun fill() {
+            println("Write how many ml of water you want to add: ")
+            water += readln().toInt()
+            println("Write how many ml of milk you want to add: ")
+            milk += readln().toInt()
+            println("Write how many grams of coffee beans you want to add: ")
+            beans += readln().toInt()
+            println("Write how many disposable cups you want to add: ")
+            cups += readln().toInt()
+        }
+
+        fun take() {
+            println("I gave you $$money")
+            money = 0
+        }
+    }
+  learner_created: true
+- name: src/mf/nf Solution.kt
   visible: true
   text: |
     package machine
@@ -569,110 +673,13 @@ files:
         return readln().toInt()
     }
   learner_created: true
-- name: src/machine/Alya K Solution.kt
-  visible: true
-  text: |-
-    package machine
-
-    fun main() {
-        val coffeeMachine = DataCoffeeMachine()
-        coffeeMachine.printing()
-        println("Write action (buy, fill, take): ")
-        when (readln()) {
-            "buy" -> { println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ")
-                when(readln().toInt()) {
-                    1 -> coffeeMachine.buy(Coffee.espresso)
-                    2 -> coffeeMachine.buy(Coffee.latte)
-                    3 -> coffeeMachine.buy(Coffee.cappuccino)
-                }
-            }
-            "fill" -> coffeeMachine.fill()
-            "take" -> coffeeMachine.take()
-        }
-        coffeeMachine.printing()
-    }
-
-    data class Coffee(val water: Int, val milk: Int, val beans: Int, val price: Int) {
-        companion object {
-            val espresso = Coffee(water = 250, milk = 0, beans = 16, price = 4)
-            val latte = Coffee(water = 350, milk = 75, beans = 20, price = 7)
-            val cappuccino = Coffee(water = 200, milk = 100, beans = 12, price = 6)
-        }
-    }
-
-    data class DataCoffeeMachine(var water: Int = 400, var milk: Int = 540,
-                                 var beans: Int = 120, var money: Int = 550,
-                                 var cups: Int = 9) {
-        fun printing() {
-            println("The coffee machine has:\n" +
-                    "$water ml of water\n" +
-                    "$milk ml of milk\n" +
-                    "$beans g of coffee beans\n" +
-                    "$cups disposable cups\n" +
-                    "$$money of money\n")
-        }
-
-        fun buy(a: Coffee, cup: Int = 1) {
-            water -= a.water
-            milk -= a.milk
-            beans -= a.beans
-            money += a.price
-            cups -= cup
-        }
-
-        fun fill() {
-            println("Write how many ml of water you want to add: ")
-            water += readln().toInt()
-            println("Write how many ml of milk you want to add: ")
-            milk += readln().toInt()
-            println("Write how many grams of coffee beans you want to add: ")
-            beans += readln().toInt()
-            println("Write how many disposable cups you want to add: ")
-            cups += readln().toInt()
-        }
-
-        fun take() {
-            println("I gave you $$money")
-            money = 0
-        }
-    }
-  learner_created: true
-- name: src/machine/Volume.kt
-  visible: true
-  text: |-
-    package machine
-
-    data class Volume(val ingredient: Ingredient, var quantity: UInt, val unit: machine.Unit) {
-        override fun toString(): String {
-            return "%d %s of %s".format(quantity.toInt(), unit.unit, ingredient.desc)
-        }
-    }
-  learner_created: true
-- name: src/machine/Unit.kt
-  visible: true
-  text: |-
-    package machine
-
-    enum class Ingredient(val desc: String) {
-        WATER("water"),
-        MILK("milk"),
-        COFFEE_BEANS("coffee beans")
-    }
-
-    enum class Unit(val desc: String, val unit: String) {
-        ML("ml", "ml"),
-        GM("grams", "g")
-    }
-  learner_created: true
-- name: src/machine/Monetary.kt
-  visible: true
-  text: |+
-    package machine
-    class Monetary (var amount: Int = 0) {
-        val symbol = "$"
-    }
-
-  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5663#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Error in test #1
+
+    There are 3 classes with main method: machine.Alya_K_SolutionKt, machine.MainKt, machine.Nf_SolutionKt.
+    Leave only one of them to be executed.
+  time: "Wed, 12 Apr 2023 22:02:03 UTC"
 record: -1

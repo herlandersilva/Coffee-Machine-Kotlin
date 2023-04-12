@@ -1,4 +1,4 @@
-package machine
+package alya
 
 fun main() {
     val coffeeMachine = DataCoffeeMachine()
