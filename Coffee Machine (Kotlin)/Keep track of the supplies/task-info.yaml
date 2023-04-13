@@ -676,6 +676,24 @@ files:
 - name: test/hs-test-10.0.3.zip
   visible: true
   learner_created: true
+- name: src/matteo/zattera/Main.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/CoffeeMachine.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Coffee.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Milliliters.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Grams.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Dollars.kt
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5663#comment
 status: Solved
 feedback:
