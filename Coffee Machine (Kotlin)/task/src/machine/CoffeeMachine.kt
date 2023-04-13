@@ -124,9 +124,10 @@ class CoffeeMachine {
             3 to "cappuccino"
         )
 
-        val optionCoffee = Util.ask("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:").toInt()
+        val optionCoffee = Util.ask("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")
+            .takeIf { it != "back" }?.apply { toInt() } ?: run { return }
 
-        val cupOfCoffee = TypeOfCoffee.valueOf(optionCoffee - 1).name.lowercase()
+        val cupOfCoffee = TypeOfCoffee.valueOf(optionCoffee.toInt() - 1).name.lowercase()
         val water = typeOfDrinkCoffee[cupOfCoffee]?.waterVolume
         waterSupplier.quantity
             .takeIf { it.toUInt() > (water?.quantity?.toUInt() ?: 0U) }?.apply {

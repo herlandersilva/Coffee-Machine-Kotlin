@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.482s</div>
+<div class="counter">0.796s</div>
 <p>duration</p>
 </div>
 </td>
@@ -76,9 +76,18 @@
 <a name="start"></a>
 <h3 class="failures">start</h3>
 <span class="code">
-<pre>java.lang.AssertionError: Wrong answer in test #1
+<pre>java.lang.AssertionError: Exception in test #7
 
-This test is exactly like in the example - try to run it by yourself
+java.lang.NumberFormatException: For input string: &quot;back&quot;
+	at java.base/java.lang.NumberFormatException.forInputString(NumberFormatException.java:67)
+	at java.base/java.lang.Integer.parseInt(Integer.java:668)
+	at java.base/java.lang.Integer.parseInt(Integer.java:786)
+	at machine.CoffeeMachine.buyCoffee(CoffeeMachine.kt:127)
+	at machine.CoffeeMachine.actionMenu(CoffeeMachine.kt:89)
+	at machine.CoffeeMachine.menu(CoffeeMachine.kt:84)
+	at machine.CoffeeMachine.Buy, fill, take, remaining and exit(CoffeeMachine.kt:19)
+	at machine.MainKt.main(Main.kt:6)
+	at machine.MainKt.main(Main.kt)
 
 Please find below the output of your program during this failed test.
 Note that the '&gt;' character indicates the beginning of the input line.
@@ -99,52 +108,7 @@ Write action (buy, fill, take, remaining, exit):
 &gt; buy
 
 What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
-&gt; 2
-I have enough resources, making you a coffee!
-
-Write action (buy, fill, take, remaining, exit):
-&gt; buy
-
-What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
-&gt; 2
-Sorry, not enough water!
-
-Write action (buy, fill, take, remaining, exit):
-&gt; fill
-
-Write how many ml of water you want to add:
-&gt; 1000
-Write how many ml of milk you want to add:
-&gt; 0
-Write how many grams of coffee beans you want to add:
-&gt; 0
-Write how many disposable cups you want to add:
-&gt; 0
-
-Write action (buy, fill, take, remaining, exit):
-&gt; buy
-
-What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
-&gt; 2
-Sorry, not enough milk!
-
-Write action (buy, fill, take, remaining, exit):
-&gt; take
-
-I gave you $557
-
-Write action (buy, fill, take, remaining, exit):
-&gt; remaining
-
-The coffee machine has:
-1050 ml of water
-465 ml of milk
-45 g of coffee beans
-8 disposable cups
-$0 of money
-
-Write action (buy, fill, take, remaining, exit):
-&gt; exit
+&gt; back
 	at org.junit.Assert.fail(Assert.java:89)
 	at org.hyperskill.hstest.stage.StageTest.start(StageTest.java:203)
 	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
@@ -206,7 +170,7 @@ Write action (buy, fill, take, remaining, exit):
 </thead>
 <tr>
 <td class="failures">start</td>
-<td class="failures">0.482s</td>
+<td class="failures">0.796s</td>
 <td class="failures">failed</td>
 </tr>
 </table>
@@ -257,25 +221,200 @@ Write action (buy, fill, take, remaining, exit):
 
 What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
 &gt; 2
-Sorry, not enough milk!
+I have enough resources, making you a coffee!
 
 Write action (buy, fill, take, remaining, exit):
 &gt; take
 
-I gave you $557
+I gave you $564
 
 Write action (buy, fill, take, remaining, exit):
 &gt; remaining
 
 The coffee machine has:
-1050 ml of water
-465 ml of milk
-45 g of coffee beans
-8 disposable cups
+700 ml of water
+390 ml of milk
+80 g of coffee beans
+7 disposable cups
 $0 of money
 
 Write action (buy, fill, take, remaining, exit):
 &gt; exit
+?[1;31m
+Start test 2?[0m
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+400 ml of water
+540 ml of milk
+120 g of coffee beans
+9 disposable cups
+$550 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; fill
+
+Write how many ml of water you want to add:
+&gt; 3000
+Write how many ml of milk you want to add:
+&gt; 3000
+Write how many grams of coffee beans you want to add:
+&gt; 3000
+Write how many disposable cups you want to add:
+&gt; 3000
+
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+3400 ml of water
+3540 ml of milk
+3120 g of coffee beans
+3009 disposable cups
+$550 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; exit
+?[1;31m
+Start test 3?[0m
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+400 ml of water
+540 ml of milk
+120 g of coffee beans
+9 disposable cups
+$550 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; buy
+
+What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+&gt; 1
+I have enough resources, making you a coffee!
+
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+150 ml of water
+540 ml of milk
+104 g of coffee beans
+8 disposable cups
+$554 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; exit
+?[1;31m
+Start test 4?[0m
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+400 ml of water
+540 ml of milk
+120 g of coffee beans
+9 disposable cups
+$550 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; buy
+
+What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+&gt; 2
+I have enough resources, making you a coffee!
+
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+50 ml of water
+465 ml of milk
+100 g of coffee beans
+8 disposable cups
+$557 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; exit
+?[1;31m
+Start test 5?[0m
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+400 ml of water
+540 ml of milk
+120 g of coffee beans
+9 disposable cups
+$550 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; buy
+
+What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+&gt; 3
+I have enough resources, making you a coffee!
+
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+200 ml of water
+440 ml of milk
+108 g of coffee beans
+8 disposable cups
+$556 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; exit
+?[1;31m
+Start test 6?[0m
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+400 ml of water
+540 ml of milk
+120 g of coffee beans
+9 disposable cups
+$550 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; take
+
+I gave you $550
+
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+400 ml of water
+540 ml of milk
+120 g of coffee beans
+9 disposable cups
+$0 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; exit
+?[1;31m
+Start test 7?[0m
+Write action (buy, fill, take, remaining, exit):
+&gt; remaining
+
+The coffee machine has:
+400 ml of water
+540 ml of milk
+120 g of coffee beans
+9 disposable cups
+$550 of money
+
+Write action (buy, fill, take, remaining, exit):
+&gt; buy
+
+What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:
+&gt; back
 </pre>
 </span>
 </div>
@@ -287,7 +426,7 @@ Write action (buy, fill, take, remaining, exit):
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="http://www.gradle.org">Gradle 7.3.3</a> at 13/04/2023, 00:31:22</p>
+<a href="http://www.gradle.org">Gradle 7.3.3</a> at 13/04/2023, 00:47:29</p>
 </div>
 </div>
 </body>
