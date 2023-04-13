@@ -8,6 +8,9 @@ files:
     \    }\n    // Do not change lines above\n    // Write your code here\n\n}"
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/15132#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Thu, 13 Apr 2023 05:08:54 UTC"
 record: -1
 submission_language: kotlin
