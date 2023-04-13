@@ -1,0 +1,28 @@
+type: choice
+is_multiple_choice: true
+options:
+- text: Setters can be customized
+- text: Setters don't return any values
+- text: You can use a setter for val variables
+- text: There can be only one set() method for one property
+files:
+- name: src/Main.kt
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    fun main(args: Array<String>) {
+      // put your code here
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/20636#comment
+status: Solved
+feedback:
+  message: <html>Correct solution</html>
+  time: "Thu, 13 Apr 2023 04:17:00 UTC"
+record: -1
+selected_options:
+- 0
+- 1
+- 3
+local_check: false
