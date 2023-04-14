@@ -275,6 +275,428 @@ files:
         }
     }
   learner_created: false
+- name: src/machine/CoffeeMachine.kt
+  visible: true
+  text: |-
+    package machine
+
+    class CoffeeMachine {
+        private var cups: Int = 9
+        private var money = Monetary(550)
+        private val waterSupplier: Volume = Volume(Ingredient.WATER, 400U, Unit.ML)
+        private val milkSupplier: Volume = Volume(Ingredient.MILK, 540U, Unit.ML)
+        private val coffeeBeansSupplier: Volume = Volume(Ingredient.COFFEE_BEANS, 120U, Unit.GM)
+
+        fun `Starting to make a coffee`() = println("Starting to make a coffee")
+        fun `Grinding coffee beans`() = println("Grinding coffee beans")
+        fun `Boiling water`() = println("Boiling water")
+        fun `Mixing boiled water with crushed coffee beans`() = println("Mixing boiled water with crushed coffee beans")
+        fun `Pouring coffee into the cup`() = println("Pouring coffee into the cup")
+        fun `Pouring some milk into the cup`() = println("Pouring some milk into the cup")
+        fun `Coffee is ready!`() = println("Coffee is ready!")
+        fun `How many ingredients to make x cups of coffee`() = this.howManyIngredientsNeedToMakeCoffeeXCups()
+        fun `How many supplier the machine has`() = this.howManySupplierTheMachineHas()
+        fun `Buy, fill and take`() = this.buyFillAndTake()
+
+
+        override fun toString(): String {
+            return "The coffee machine has:" + "\n" +
+                    this.machineSupplier()
+        }
+
+        private fun machineSupplier(): String {
+            return this.waterSupplier.toString() + "\n" +
+                    this.milkSupplier.toString() + "\n" +
+                    this.coffeeBeansSupplier.toString() + "\n" +
+                    "%d disposable cups".format(cups) + "\n" +
+                    "%s%d of money".format(this.money.symbol, this.money.amount)
+        }
+
+        private fun howManyIngredientsNeedToMakeCoffeeXCups() {
+            this.cups = Util.ask("Write how many cups of coffee you will need:").toInt()
+            println(this.toString())
+            val stdCoffeeCup = StandardCoffeeCup()
+            val customWater: Volume = Volume(
+                stdCoffeeCup.waterVolume.ingredient,
+                stdCoffeeCup.waterVolume.quantity * cups.toUInt(),
+                stdCoffeeCup.waterVolume.unit
+            )
+            val customMilk: Volume = Volume(
+                stdCoffeeCup.milkVolume.ingredient,
+                stdCoffeeCup.milkVolume.quantity * cups.toUInt(),
+                stdCoffeeCup.milkVolume.unit
+            )
+            val customCoffeeBeans: Volume = Volume(
+                stdCoffeeCup.coffeeVolume.ingredient,
+                stdCoffeeCup.coffeeVolume.quantity * cups.toUInt(),
+                stdCoffeeCup.coffeeVolume.unit
+            )
+            val customCoffeeCup = CustomCoffeeCup(customWater, customMilk, customCoffeeBeans)
+            println(customCoffeeCup.waterVolume)
+            println(customCoffeeCup.milkVolume)
+            println(customCoffeeCup.coffeeVolume)
+        }
+
+        private fun howManySupplierTheMachineHas() {
+            val waterSupplier = Volume(
+                Ingredient.WATER,
+                Util.ask("Write how many %s of %s the coffee machine has:".format(Unit.ML.desc, Ingredient.WATER.desc)).toUInt(),
+                Unit.ML
+            )
+            val milkSupplier = Volume(
+                Ingredient.MILK,
+                Util.ask("Write how many %s of %s the coffee machine has:".format(Unit.ML.desc, Ingredient.MILK.desc)).toUInt(),
+                Unit.ML
+            )
+            val coffeeBeansSupplier = Volume(
+                Ingredient.COFFEE_BEANS,
+                Util.ask("Write how many %s of %s the coffee machine has:".format(Unit.GM.desc, Ingredient.COFFEE_BEANS.desc)).toUInt(),
+                Unit.GM
+            )
+            this.cups = Util.ask("Write how many cups of coffee you will need:").toInt()
+            val nimOfCoffeePossible = StandardCoffeeCup().haveManySupplierToMakeCupOfCoffee(waterSupplier, milkSupplier, coffeeBeansSupplier)
+            when {
+                this.cups == nimOfCoffeePossible -> "Yes, I can make that amount of coffee"
+                this.cups > nimOfCoffeePossible -> "No, I can make only %d cups of coffee".format(nimOfCoffeePossible)
+                else -> "Yes, I can make that amount of coffee (and even %d more than that)".format(nimOfCoffeePossible - this.cups)
+            }.also(::println)
+        }
+
+        private fun buyFillAndTake() {
+            this.toString().let(::println)
+            println()
+            this.actionMenu()
+            println()
+            this.toString().let(::println)
+        }
+
+        private fun actionMenu() {
+            when (Util.ask("Write action (buy, fill, take):")) {
+                "buy" -> buyCoffee()
+                "fill" -> fillSupplyMachine()
+                "take" -> takeTheMoney()
+            }
+        }
+
+        private fun buyCoffee() {
+            val typeOfDrinkCoffee: MutableMap<String, CustomCoffeeCup> = mutableMapOf(
+                "espresso" to CustomCoffeeCup(
+                    Volume(Ingredient.WATER, 250U, Unit.ML),
+                    Volume(Ingredient.MILK, 0U, Unit.ML),
+                    Volume(Ingredient.COFFEE_BEANS, 16U, Unit.GM),
+                    4
+                ),
+                "latte" to CustomCoffeeCup(
+                    Volume(Ingredient.WATER, 350U, Unit.ML),
+                    Volume(Ingredient.MILK, 75U, Unit.ML),
+                    Volume(Ingredient.COFFEE_BEANS, 20U, Unit.GM),
+                    7
+                ),
+                "cappuccino" to CustomCoffeeCup(
+                    Volume(Ingredient.WATER, 200U, Unit.ML),
+                    Volume(Ingredient.MILK, 100U, Unit.ML),
+                    Volume(Ingredient.COFFEE_BEANS, 12U, Unit.GM),
+                    6
+                )
+            ).toMutableMap()
+
+            val cupNumber = mapOf(
+                1 to "espresso",
+                2 to "latte",
+                3 to "cappuccino"
+            )
+
+            val optionCoffee = Util.ask("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:").toInt()
+            this.waterSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.waterVolume?.quantity ?: 0U
+            this.milkSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.milkVolume?.quantity ?: 0U
+            this.coffeeBeansSupplier.quantity -= typeOfDrinkCoffee[cupNumber[optionCoffee]]?.coffeeVolume?.quantity ?: 0U
+            this.cups--
+            this.money.amount += typeOfDrinkCoffee[cupNumber[optionCoffee]]?.price ?: 0
+        }
+
+        private fun fillSupplyMachine() {
+            this.waterSupplier.quantity += Util.ask("Write how many %s of %s you want to add:".format(Unit.ML.desc, Ingredient.WATER.desc)).toUInt()
+            this.milkSupplier.quantity += Util.ask("Write how many %s of %s you want to add:".format(Unit.ML.desc, Ingredient.MILK.desc)).toUInt()
+                this.coffeeBeansSupplier.quantity += Util.ask("Write how many %s of %s you want to add:".format(Unit.GM.desc, Ingredient.COFFEE_BEANS.desc)).toUInt()
+            this.cups += Util.ask("Write how many disposable cups you want to add:").toInt()
+        }
+
+        private fun takeTheMoney() {
+            "I gave you %s%d".format(this.money.symbol, this.money.amount).let(::println)
+            this.money.amount = 0
+        }
+    }
+
+    abstract class CoffeeCup {
+        abstract val waterVolume: Volume
+        abstract val milkVolume: Volume
+        abstract val coffeeVolume: Volume
+    }
+
+    class CustomCoffeeCup(
+        _waterVolume: Volume,
+        _milkVolume: Volume,
+        _coffeeVolume: Volume,
+        _price: Int = 0
+    ) : CoffeeCup() {
+        val price = _price
+        override val waterVolume = _waterVolume
+        override val milkVolume = _milkVolume
+        override val coffeeVolume = _coffeeVolume
+    }
+
+    class StandardCoffeeCup : CoffeeCup() {
+        override val waterVolume = Volume(Ingredient.WATER, 200U, Unit.ML)
+        override val milkVolume = Volume(Ingredient.MILK, 50U, Unit.ML)
+        override val coffeeVolume = Volume(Ingredient.COFFEE_BEANS, 15U, Unit.GM)
+
+        fun haveManySupplierToMakeCupOfCoffee(waterSupplier: Volume, milkSupplier: Volume, coffeeBeansSupplier: Volume): Int {
+            return listOf(
+                waterSupplier.quantity / waterVolume.quantity,
+                milkSupplier.quantity / milkVolume.quantity,
+                coffeeBeansSupplier.quantity / coffeeVolume.quantity
+            ).minOf { it.toInt() }
+        }
+    }
+  learner_created: true
+- name: src/machine/Util.kt
+  visible: true
+  text: |-
+    package machine
+
+    object Util {
+        private var sendToCheck = true
+
+        fun ask(title: String): String {
+            println(title)
+            return readln().trim()
+        }
+
+        fun readln(): String {
+            if (!sendToCheck) {
+                print("> ")
+            }
+            return kotlin.io.readln()
+        }
+
+        fun disableToSend() { this.sendToCheck = false }
+        fun enableToSend() { this.sendToCheck = true }
+    }
+  learner_created: true
+- name: src/machine/Volume.kt
+  visible: true
+  text: |-
+    package machine
+
+    data class Volume(val ingredient: Ingredient, var quantity: UInt, val unit: machine.Unit) {
+        override fun toString(): String {
+            return "%d %s of %s".format(quantity.toInt(), unit.unit, ingredient.desc)
+        }
+    }
+  learner_created: true
+- name: src/machine/Unit.kt
+  visible: true
+  text: |-
+    package machine
+
+    enum class Ingredient(val desc: String) {
+        WATER("water"),
+        MILK("milk"),
+        COFFEE_BEANS("coffee beans")
+    }
+
+    enum class Unit(val desc: String, val unit: String) {
+        ML("ml", "ml"),
+        GM("grams", "g")
+    }
+  learner_created: true
+- name: src/machine/Monetary.kt
+  visible: true
+  text: |+
+    package machine
+    class Monetary (var amount: Int = 0) {
+        val symbol = "$"
+    }
+
+  learner_created: true
+- name: src/alya/Alya K Solution.kt
+  visible: true
+  text: |-
+    package machine
+
+    fun main() {
+        val coffeeMachine = DataCoffeeMachine()
+        coffeeMachine.printing()
+        println("Write action (buy, fill, take): ")
+        when (readln()) {
+            "buy" -> { println("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino: ")
+                when(readln().toInt()) {
+                    1 -> coffeeMachine.buy(Coffee.espresso)
+                    2 -> coffeeMachine.buy(Coffee.latte)
+                    3 -> coffeeMachine.buy(Coffee.cappuccino)
+                }
+            }
+            "fill" -> coffeeMachine.fill()
+            "take" -> coffeeMachine.take()
+        }
+        coffeeMachine.printing()
+    }
+
+    data class Coffee(val water: Int, val milk: Int, val beans: Int, val price: Int) {
+        companion object {
+            val espresso = Coffee(water = 250, milk = 0, beans = 16, price = 4)
+            val latte = Coffee(water = 350, milk = 75, beans = 20, price = 7)
+            val cappuccino = Coffee(water = 200, milk = 100, beans = 12, price = 6)
+        }
+    }
+
+    data class DataCoffeeMachine(var water: Int = 400, var milk: Int = 540,
+                                 var beans: Int = 120, var money: Int = 550,
+                                 var cups: Int = 9) {
+        fun printing() {
+            println("The coffee machine has:\n" +
+                    "$water ml of water\n" +
+                    "$milk ml of milk\n" +
+                    "$beans g of coffee beans\n" +
+                    "$cups disposable cups\n" +
+                    "$$money of money\n")
+        }
+
+        fun buy(a: Coffee, cup: Int = 1) {
+            water -= a.water
+            milk -= a.milk
+            beans -= a.beans
+            money += a.price
+            cups -= cup
+        }
+
+        fun fill() {
+            println("Write how many ml of water you want to add: ")
+            water += readln().toInt()
+            println("Write how many ml of milk you want to add: ")
+            milk += readln().toInt()
+            println("Write how many grams of coffee beans you want to add: ")
+            beans += readln().toInt()
+            println("Write how many disposable cups you want to add: ")
+            cups += readln().toInt()
+        }
+
+        fun take() {
+            println("I gave you $$money")
+            money = 0
+        }
+    }
+  learner_created: true
+- name: src/mf/nf Solution.kt
+  visible: true
+  text: |
+    package machine
+
+    class Machine() {
+        private constructor(water: Int, milk: Int, beans: Int, cups: Int, money: Int) : this() {
+            this.state = State(water, milk, beans, cups, money)
+        }
+
+        enum class Coffee(val cost: Int, val water: Int, val milk: Int, val beans: Int) {
+            ESPRESSO(4, 250, 0, 16),
+            LATTE(7, 350, 75, 20),
+            CAPPUCCINO(6, 200, 100, 12)
+        }
+
+        private inner class State(var water: Int, var milk: Int, var beans: Int, var cups: Int, var money: Int)
+
+        companion object Factory {
+            fun init(water: Int, milk: Int, beans: Int, cups: Int, money: Int): Machine =
+                Machine(water, milk, beans, cups, money)
+        }
+
+        private var state = State(0, 0, 0, 0, 0)
+
+        fun printState() {
+            val state = """
+          The coffee machine has:
+          ${state.water} ml of water
+          ${state.milk} ml of milk
+          ${state.beans} g of coffee beans
+          ${state.cups} disposable cups
+          $${state.money} of money
+          """.trimIndent()
+            println(state)
+        }
+
+        fun sellCoffee() {
+            when (readInt("What do you want to buy? 1 - espresso, 2 - latte, 3 - cappuccino:")) {
+                1 -> deductCoffeeFromState(Coffee.ESPRESSO)
+                2 -> deductCoffeeFromState(Coffee.LATTE)
+                3 -> deductCoffeeFromState(Coffee.CAPPUCCINO)
+            }
+        }
+
+        private fun deductCoffeeFromState(coffee: Coffee) {
+            state.water -= coffee.water
+            state.milk -= coffee.milk
+            state.beans -= coffee.beans
+            state.cups -= 1
+            state.money += coffee.cost
+        }
+
+        fun topUp() {
+            state.water += readInt("Write how many ml of water you want to add:")
+            state.milk += readInt("Write how many ml of milk you want to add:")
+            state.beans += readInt("Write how many grams of coffee beans you want to add:")
+            state.cups += readInt("Write how many disposable cups you want to add:")
+        }
+
+        fun giveMoney() {
+            println("I gave you $${state.money}")
+            state.money = 0
+        }
+    }
+
+    fun main() {
+        val machine = Machine.init(400, 540, 120, 9, 550)
+        machine.printState()
+
+        println("Write action (buy, fill, take):")
+        val action = readln()
+        when (action) {
+            "buy" -> machine.sellCoffee()
+            "fill" -> machine.topUp()
+            "take" -> machine.giveMoney()
+        }
+
+        machine.printState()
+    }
+
+    fun readInt(prompt: String): Int {
+        println(prompt)
+        return readln().toInt()
+    }
+  learner_created: true
+- name: test/hs-test-10.0.3.zip
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Main.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/CoffeeMachine.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Coffee.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Milliliters.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Grams.kt
+  visible: true
+  learner_created: true
+- name: src/matteo/zattera/Dollars.kt
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/5663#comment
 status: Solved
-record: 6
+feedback:
+  message: Congratulations!
+  time: "Thu, 13 Apr 2023 00:02:50 UTC"
+record: 9

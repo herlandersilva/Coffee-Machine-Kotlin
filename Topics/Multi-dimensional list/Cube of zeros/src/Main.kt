@@ -6,6 +6,6 @@ fun main() {
     )
 
     "[".let(::print)
-    inputList.joinToString().let(::print)
+    inputList.joinToString().let(::print)-
     "]".let(::println)
 }
